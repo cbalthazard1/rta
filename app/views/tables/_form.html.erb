@@ -1,0 +1,29 @@
+<%= form_with model: table do |form| %>
+  <div>
+    <%= form.label :country_abbr %><br>
+    <%= form.text_field :country_abbr %>
+    <% table.errors.full_messages_for(:country_abbr).each do |message| %>
+      <div><%= message %></div>
+    <% end %>
+  </div>
+
+  <div>
+    <%= form.label :level %><br>
+    <%= form.text_area :level %>
+    <% table.errors.full_messages_for(:level).each do |message| %>
+      <div><%= message %></div>
+    <% end %>
+  </div>
+
+  <div>
+    <%= form.label :name %><br>
+    <%= form.text_area :name %>
+    <% table.errors.full_messages_for(:name).each do |message| %>
+      <div><%= message %></div>
+    <% end %>
+  </div>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>

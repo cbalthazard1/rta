@@ -1,0 +1,12 @@
+<%= turbo_include_tags %>
+<h1><%= @table.name %></h1>
+
+<p><%= @table.country_abbr %></p>
+
+<ul>
+  <li><%= link_to "Edit", edit_table_path(@table) %></li>
+  <li><%= link_to "Destroy", table_path(@table), data: {
+                    turbo_method: :delete,
+                    turbo_confirm: "Are you sure?"
+                  } %></li>
+</ul>
