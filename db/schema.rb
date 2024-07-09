@@ -10,7 +10,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_07_09_144039) do
+ActiveRecord::Schema[7.1].define(version: 2024_07_09_183229) do
+  create_table "table_rows", force: :cascade do |t|
+    t.integer "position"
+    t.string "team_name"
+    t.integer "points"
+    t.integer "goal_difference"
+    t.integer "table_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["table_id"], name: "index_table_rows_on_table_id"
+  end
+
   create_table "tables", force: :cascade do |t|
     t.string "country_abbr"
     t.integer "level"
@@ -19,4 +30,5 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_09_144039) do
     t.datetime "updated_at", null: false
   end
 
+  add_foreign_key "table_rows", "tables"
 end

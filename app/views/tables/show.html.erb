@@ -3,6 +3,9 @@
 
 <p><%= @table.country_abbr %></p>
 
+<h2>Rows</h2>
+<%= render @table.table_rows %>
+
 <ul>
   <li><%= link_to "Edit", edit_table_path(@table) %></li>
   <li><%= link_to "Destroy", table_path(@table), data: {

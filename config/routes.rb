@@ -6,5 +6,7 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   root "tables#index"
 
-  resources :tables
+  resources :tables do
+    resources :table_rows
+  end
 end
