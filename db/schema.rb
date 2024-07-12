@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_07_09_183229) do
+ActiveRecord::Schema[7.1].define(version: 2024_07_12_201358) do
   create_table "table_rows", force: :cascade do |t|
     t.integer "position"
     t.string "team_name"
@@ -19,6 +19,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_09_183229) do
     t.integer "table_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.float "xg_diff_per90"
     t.index ["table_id"], name: "index_table_rows_on_table_id"
   end
 

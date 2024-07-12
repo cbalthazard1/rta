@@ -31,6 +31,8 @@ gem "sidekiq"
 
 gem "pry"
 
+gem 'nokogiri', '~> 1.16', '>= 1.16.6'
+
 # Use Redis adapter to run Action Cable in production
 # gem "redis", ">= 4.0.1"
 
