@@ -11,6 +11,8 @@ Rails.application.routes.draw do
   mount Sidekiq::Web => '/sidekiq'
 
   resources :tables do
+    get 'refresh', on: :member
+
     resources :table_rows
   end
 end

@@ -23,6 +23,23 @@
     <% end %>
   </div>
 
+<% @table.config.keys.each do |key| %>
+  <div class="field">
+    <%= form.label key %><br />
+    <%= text_area_tag "table[" + key + "]", @table.config[key], size: "20x5" %>
+  </div>
+<% end %>
+
+<% if @table.config.keys.size==0 %>
+  <div>
+    <%= form.label :fbref_url %><br>
+    <%= form.text_area :fbref_url %>
+    <% table.errors.full_messages_for(:fbref_url).each do |message| %>
+      <div><%= message %></div>
+    <% end %>
+  </div>
+<% end %>
+
   <div>
     <%= form.submit %>
   </div>

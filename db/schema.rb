@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_07_12_201358) do
+ActiveRecord::Schema[7.1].define(version: 2024_07_15_233323) do
   create_table "table_rows", force: :cascade do |t|
     t.integer "position"
     t.string "team_name"
@@ -29,6 +29,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_12_201358) do
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.json "config", default: {}
   end
 
   add_foreign_key "table_rows", "tables"

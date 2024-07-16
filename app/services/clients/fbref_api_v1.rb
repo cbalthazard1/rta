@@ -8,11 +8,14 @@ require 'nokogiri'
 
 module Clients
 	class FbrefApiV1
-		def self.pull_data
-			doc = Nokogiri::HTML(URI.open("https://fbref.com/en/comps/9/Premier-League-Stats"))
+		def self.pull_data(table_id)
+			url = Table.find(table_id)[:config]["fbref_url"]
+			doc = Nokogiri::HTML(URI.open(url))
 
-			# find league table by exact table id - not great
-			table = doc.xpath('//table[@id="results2023-202491_overall"]')
+			# old method with exact id, still making sure new one works so keeping it here
+			# table = doc.xpath('//table[@id="results2023-202491_overall"]')
+
+			table = doc.xpath('//table[starts-with(.,results-2023-2024)]').first
 
 			# get body of table
 			tbody = table.children.select{ |node| node.name=="tbody"}.first

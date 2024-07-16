@@ -6,7 +6,8 @@
 <h2>Rows</h2>
 <%= render @table.table_rows %>
 
-<ul>
+<ul data-turbo-prefetch="false">
+  <li><%= link_to "Refresh", refresh_table_path(@table) %></li>
   <li><%= link_to "Edit", edit_table_path(@table) %></li>
   <li><%= link_to "Destroy", table_path(@table), data: {
                     turbo_method: :delete,

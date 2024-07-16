@@ -1,3 +1,5 @@
+require 'json'
+
 class TablesController < ApplicationController
   def index
     @tables = Table.all
@@ -35,6 +37,17 @@ class TablesController < ApplicationController
     end
   end
 
+  def refresh
+    @table = Table.find(params[:id])
+
+    if UpdateTablesJob.perform_later(params[:id])
+      sleep(0.5)
+      redirect_to @table
+    else
+      render :edit, status: :unprocessable_entity
+    end
+  end
+
   def destroy
     @table = Table.find(params[:id])
     @table.destroy
@@ -45,6 +58,13 @@ class TablesController < ApplicationController
   private
 
   def table_params
-    params.require(:table).permit(:country_abbr, :level, :name)
+    raw_params = params.require(:table).permit(:country_abbr, :level, :name, :fbref_url)
+    params_with_config = raw_params
+
+    # will likely end up refactoring this to handle multiple additional fields at some point
+    params_with_config[:config] = {
+      fbref_url: raw_params[:fbref_url]
+    }
+    params_with_config.except(:fbref_url)
   end
 end
