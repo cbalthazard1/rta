@@ -7,6 +7,10 @@ class TablesController < ApplicationController
 
   def show
     @table = Table.find(params[:id])
+
+    sort_column = params[:sort] || "position"
+    sort_direction = params[:direction].presence_in(%w[asc desc]) || "asc"
+    @table_rows = @table.table_rows.order("#{sort_column} #{sort_direction}")
   end
 
   def new
