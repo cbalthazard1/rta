@@ -10,7 +10,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_07_15_233323) do
+ActiveRecord::Schema[7.1].define(version: 2024_07_22_174835) do
+  create_table "clubs", force: :cascade do |t|
+    t.string "name"
+    t.string "location"
+    t.string "country_abbr"
+    t.json "config", default: {}
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "table_rows", force: :cascade do |t|
     t.integer "position"
     t.string "team_name"
@@ -20,6 +29,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_15_233323) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.float "xg_diff_per90"
+    t.integer "club_id"
+    t.index ["club_id"], name: "index_table_rows_on_club_id"
     t.index ["table_id"], name: "index_table_rows_on_table_id"
   end
 
@@ -32,5 +43,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_15_233323) do
     t.json "config", default: {}
   end
 
+  add_foreign_key "table_rows", "clubs"
   add_foreign_key "table_rows", "tables"
 end

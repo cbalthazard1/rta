@@ -1,0 +1,13 @@
+<%= turbo_include_tags %>
+<h1><%= @club.name %></h1>
+
+<p><%= @club.location %></p>
+
+<ul data-turbo-prefetch="false">
+  <li><%= link_to "Back to tables", tables_path %></li>
+  <li><%= link_to "Edit", edit_club_path(@club) %></li>
+  <li><%= link_to "Destroy", club_path(@club), data: {
+                    turbo_method: :delete,
+                    turbo_confirm: "Are you sure?"
+                  } %></li>
+</ul>

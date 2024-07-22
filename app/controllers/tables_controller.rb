@@ -8,6 +8,7 @@ class TablesController < ApplicationController
   def show
     @table = Table.find(params[:id])
 
+    # sorting code mostly from https://code.avi.nyc/turbo-sortable-paginated-tables
     sort_column = params[:sort] || "position"
     sort_direction = params[:direction].presence_in(%w[asc desc]) || "asc"
     @table_rows = @table.table_rows.order("#{sort_column} #{sort_direction}")

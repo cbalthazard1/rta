@@ -1,0 +1,54 @@
+<%= form_with model: club do |form| %>
+  <div>
+    <%= form.label :country_abbr %><br>
+    <%= form.text_field :country_abbr %>
+    <% club.errors.full_messages_for(:country_abbr).each do |message| %>
+      <div><%= message %></div>
+    <% end %>
+  </div>
+
+  <div>
+    <%= form.label :location %><br>
+    <%= form.text_area :location %>
+    <% club.errors.full_messages_for(:location).each do |message| %>
+      <div><%= message %></div>
+    <% end %>
+  </div>
+
+  <div>
+    <%= form.label :name %><br>
+    <%= form.text_area :name %>
+    <% club.errors.full_messages_for(:name).each do |message| %>
+      <div><%= message %></div>
+    <% end %>
+  </div>
+
+  <% @club.config.keys.each do |key| %>
+    <div class="field">
+      <%= form.label key %><br />
+      <%= text_area_tag "club[" + key + "]", @club.config[key], size: "20x5" %>
+    </div>
+  <% end %>
+
+<% if @club.config.keys.size==0 %>
+  <div>
+    <%= form.label :fbref_table_name %><br>
+    <%= form.text_area :fbref_table_name %>
+    <% club.errors.full_messages_for(:fbref_table_name).each do |message| %>
+      <div><%= message %></div>
+    <% end %>
+  </div>
+
+  <div>
+    <%= form.label :fbref_url %><br>
+    <%= form.text_area :fbref_url %>
+    <% club.errors.full_messages_for(:fbref_url).each do |message| %>
+      <div><%= message %></div>
+    <% end %>
+  </div>
+<% end %>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>

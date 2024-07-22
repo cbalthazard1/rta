@@ -15,4 +15,6 @@ Rails.application.routes.draw do
 
     resources :table_rows
   end
+
+  resources :clubs
 end
