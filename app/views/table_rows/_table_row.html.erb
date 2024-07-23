@@ -1,6 +1,6 @@
 <tr>
     <td><%= table_row.position %></td>
-    <td><%= table_row.team_name  %></td>
+    <td><%= link_to_if(table_row.club.present?, table_row.team_name, table_row.club)  %></td>
     <td><%= table_row.points%></td>
     <td><%= table_row.goal_difference %></td>
     <td><%= table_row.xg_diff_per90 %></td>

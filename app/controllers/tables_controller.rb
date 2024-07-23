@@ -45,12 +45,20 @@ class TablesController < ApplicationController
   def refresh
     @table = Table.find(params[:id])
 
-    if UpdateTablesJob.perform_later(params[:id])
-      sleep(0.5)
+    if table_refresh_service.refresh_table(params[:id])
+      sleep(1.0)
       redirect_to @table
     else
       render :edit, status: :unprocessable_entity
     end
+  end
+
+  def refresh_all
+    Table.all.each do |table|
+      table_refresh_service.refresh_table(table[:id])
+    end
+
+    redirect_to root_path
   end
 
   def destroy
@@ -71,5 +79,9 @@ class TablesController < ApplicationController
       fbref_url: raw_params[:fbref_url]
     }
     params_with_config.except(:fbref_url)
+  end
+
+  def table_refresh_service
+    TableRefreshService.new
   end
 end

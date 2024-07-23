@@ -12,6 +12,7 @@ Rails.application.routes.draw do
 
   resources :tables do
     get 'refresh', on: :member
+    get 'refresh_all', on: :collection
 
     resources :table_rows
   end

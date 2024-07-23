@@ -8,6 +8,10 @@
   <% end %>
 </ul>
 
-<%= link_to "New Table", new_table_path %>
-<br>
-<%= link_to "New Club", new_club_path %>
+<br><br>
+<h5>Setup options</h5>
+<ul data-turbo-prefetch="false">
+  <li><%= link_to "New table", new_table_path %></li>
+  <li><%= link_to "New Club", new_club_path %></li>
+  <li><%= link_to "Refresh all tables", refresh_all_tables_path %></li>
+</ul>
