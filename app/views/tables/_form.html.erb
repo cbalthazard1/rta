@@ -1,5 +1,13 @@
 <%= form_with model: table do |form| %>
   <div>
+    <%= form.label :name %><br>
+    <%= form.text_area :name %>
+    <% table.errors.full_messages_for(:name).each do |message| %>
+      <div><%= message %></div>
+    <% end %>
+  </div>
+
+  <div>
     <%= form.label :country_abbr %><br>
     <%= form.text_field :country_abbr %>
     <% table.errors.full_messages_for(:country_abbr).each do |message| %>
@@ -16,9 +24,17 @@
   </div>
 
   <div>
-    <%= form.label :name %><br>
-    <%= form.text_area :name %>
-    <% table.errors.full_messages_for(:name).each do |message| %>
+    <%= form.label :gender %><br>
+    <%= form.text_area :gender %>
+    <% table.errors.full_messages_for(:gender).each do |message| %>
+      <div><%= message %></div>
+    <% end %>
+  </div>
+
+  <div>
+    <%= form.label :club_or_international %><br>
+    <%= form.text_area :club_or_international %>
+    <% table.errors.full_messages_for(:club_or_international).each do |message| %>
       <div><%= message %></div>
     <% end %>
   </div>
