@@ -17,5 +17,7 @@ Rails.application.routes.draw do
     resources :table_rows
   end
 
-  resources :clubs
+  resources :clubs do
+    get 'refresh_all', on: :collection
+  end
 end

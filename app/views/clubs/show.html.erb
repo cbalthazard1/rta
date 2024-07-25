@@ -3,6 +3,18 @@
 
 <p><%= @club.location %></p>
 
+<% @table_snippets.each do |table_snippet| %>
+ <h3><%= link_to table_snippet[:table][:name], table_snippet[:table] %></h3>
+ <table class="table sortable">
+  <thead class="table__thead">
+    <%= render "table_rows/unsortable_table_header" %>
+  </thead>
+  <tbody>
+    <%= render table_snippet[:table_rows] %>
+  </tbody>
+</table>
+<% end %>
+
 <ul data-turbo-prefetch="false">
   <li><%= link_to "Back to tables", tables_path %></li>
   <li><%= link_to "New Club", new_club_path %></li>
@@ -12,3 +24,16 @@
                     turbo_confirm: "Are you sure?"
                   } %></li>
 </ul>
+
+<style>
+td, th {
+  border: 1px solid #999;
+  background-color: #AFEEEE;
+}
+td {
+  padding: 0.3rem;
+}
+th {
+  padding: 0.9rem;
+}
+</style>

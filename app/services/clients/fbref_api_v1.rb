@@ -8,7 +8,7 @@ require 'nokogiri'
 
 module Clients
 	class FbrefApiV1
-		def self.pull_data(table_id)
+		def self.pull_table_data(table_id)
 			url = Table.find(table_id)[:config]["fbref_url"]
 			doc = Nokogiri::HTML(URI.open(url))
 
@@ -51,6 +51,13 @@ module Clients
 	 			node.attribute_nodes.any? { |attr_node| attr_node.name == "data-stat" && attr_node.value == "team" }
 	 		end.first
 	 		attr.children[2].children.text
+	 	end
+
+	 	def self.pull_club_data(club_id)
+	 		url = Club.find(club_id)[:config]["fbref_url"]
+			doc = Nokogiri::HTML(URI.open(url))
+
+			# TODO
 	 	end
 	end
 end

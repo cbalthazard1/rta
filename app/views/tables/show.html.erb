@@ -5,13 +5,7 @@
 
 <table class="table sortable">
   <thead class="table__thead">
-    <tr>
-      <%= sortable_table_header 'Position', :position, :table_path, class: 'table__row--header' %>
-      <%= sortable_table_header 'Team Name', :team_name, :table_path, class: 'table__row--header' %>
-      <%= sortable_table_header 'Points', :points, :table_path, class: 'table__row--header' %>
-      <%= sortable_table_header 'Goal Difference', :goal_difference, :table_path, class: 'table__row--header' %>
-      <%= sortable_table_header 'xG Difference per 90', :xg_diff_per90, :table_path, class: 'table__row--header' %>
-    </tr>
+    <%= render "table_rows/sortable_table_header" %>
   </thead>
   <tbody>
     <%= render @table_rows %>

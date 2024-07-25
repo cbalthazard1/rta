@@ -23,6 +23,22 @@
     <% end %>
   </div>
 
+  <div>
+    <%= form.label :gender %><br>
+    <%= form.text_area :gender %>
+    <% club.errors.full_messages_for(:gender).each do |message| %>
+      <div><%= message %></div>
+    <% end %>
+  </div>
+
+  <div>
+    <%= form.label :club_or_international %><br>
+    <%= form.text_area :club_or_international %>
+    <% club.errors.full_messages_for(:club_or_international).each do |message| %>
+      <div><%= message %></div>
+    <% end %>
+  </div>
+
   <% @club.config.keys.each do |key| %>
     <div class="field">
       <%= form.label key %><br />

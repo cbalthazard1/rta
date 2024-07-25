@@ -1,14 +1,14 @@
 class UpdateTablesJob < ApplicationJob
   queue_as :default
 
-  # args[0] is the id of the table
+  # args[0] is the id of the club
   def perform(*args)
-    # currently calling in a console with UpdateTablesJob.perform_later(1)
+    # currently calling in a console with UpdateClubJob.perform_later(1)
 
-    table_id = args[0]
-    country_abbr = Table.find(table_id)[:country_abbr]
+    club_id = args[0]
+    country_abbr = Club.find(club_id)[:country_abbr]
 
-    fbref_data = FbrefService.pull_table_data(table_id)
+    fbref_data = FbrefService.pull_club_data(club_id)
 
     # interim parse step to come
 

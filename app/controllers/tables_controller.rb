@@ -54,11 +54,12 @@ class TablesController < ApplicationController
   end
 
   def refresh_all
-    Table.all.each do |table|
-      table_refresh_service.refresh_table(table[:id])
+    if table_refresh_service.refresh_all_tables
+      sleep(1.0)
+      redirect_to root_path
+    else
+      render :edit, status: :unprocessable_entity
     end
-
-    redirect_to root_path
   end
 
   def destroy

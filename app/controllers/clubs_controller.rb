@@ -8,10 +8,7 @@ class ClubsController < ApplicationController
   def show
     @club = Club.find(params[:id])
 
-    # sorting code mostly from https://code.avi.nyc/turbo-sortable-paginated-tables
-    # sort_column = params[:sort] || "position"
-    # sort_direction = params[:direction].presence_in(%w[asc desc]) || "asc"
-    # @club_rows = @club.club_rows.order("#{sort_column} #{sort_direction}")
+    @table_snippets = club_service.generate_table_snippets(@club)
   end
 
   def new
@@ -42,6 +39,15 @@ class ClubsController < ApplicationController
     end
   end
 
+  def refresh_all
+    if club_refresh_service.refresh_all_clubs
+      sleep(1.0)
+      redirect_to root_path
+    else
+      render :edit, status: :unprocessable_entity
+    end
+  end
+
   def destroy
     @club = Club.find(params[:id])
     @club.destroy
@@ -52,7 +58,7 @@ class ClubsController < ApplicationController
   private
 
   def table_params
-    raw_params = params.require(:club).permit(:name, :location, :country_abbr, :fbref_table_name, :fbref_url)
+    raw_params = params.require(:club).permit(:name, :location, :country_abbr, :gender, :club_or_international, :fbref_table_name, :fbref_url)
     params_with_config = raw_params
 
     # will likely end up refactoring this to handle multiple additional fields at some point
@@ -61,5 +67,9 @@ class ClubsController < ApplicationController
       fbref_url: raw_params[:fbref_url]
     }
     params_with_config.except(:fbref_table_name, :fbref_url)
+  end
+
+  def club_service
+    ClubService.new
   end
 end

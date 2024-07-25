@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_07_22_174835) do
+ActiveRecord::Schema[7.1].define(version: 2024_07_23_155021) do
   create_table "clubs", force: :cascade do |t|
     t.string "name"
     t.string "location"
@@ -18,6 +18,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_22_174835) do
     t.json "config", default: {}
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "gender"
+    t.string "club_or_international"
   end
 
   create_table "table_rows", force: :cascade do |t|

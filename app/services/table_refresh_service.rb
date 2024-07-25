@@ -1,11 +1,12 @@
 class TableRefreshService
 	def refresh_table(table_id)
-		# start with fbref stuff
+		# all data sources are included in the job - could be split out later
 		UpdateTablesJob.perform_later(table_id)
-		# move on to other data sources to build table up (ELO, e.g.)
 	end
 
 	def refresh_all_tables
-		# iterate over all tables and refresh
+		Table.all.each do |table|
+	      refresh_table(table[:id])
+	    end
 	end
 end
