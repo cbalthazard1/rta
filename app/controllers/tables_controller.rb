@@ -72,7 +72,7 @@ class TablesController < ApplicationController
   private
 
   def table_params
-    raw_params = params.require(:table).permit(:country_abbr, :level, :name, :fbref_url)
+    raw_params = params.require(:table).permit(:country_abbr, :level, :name, :gender, :club_or_international, :fbref_url)
     params_with_config = raw_params
 
     # will likely end up refactoring this to handle multiple additional fields at some point

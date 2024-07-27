@@ -1,6 +1,7 @@
 class Club < ApplicationRecord
 	has_many :table_rows
 	has_many :tables, through: :table_rows
+	has_many :matches
 
 	validates :name, presence: true, length: { maximum: 100 }
 	validates :location, presence: true, length: { maximum: 100 }

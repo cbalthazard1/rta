@@ -12,9 +12,6 @@ module Clients
 			url = Table.find(table_id)[:config]["fbref_url"]
 			doc = Nokogiri::HTML(URI.open(url))
 
-			# old method with exact id, still making sure new one works so keeping it here
-			# table = doc.xpath('//table[@id="results2023-202491_overall"]')
-
 			table = doc.xpath('//table[starts-with(.,results-2023-2024)]').first
 
 			# get body of table
@@ -23,10 +20,10 @@ module Clients
 			# get table rows from body
 			table_rows = tbody.children.select{ |node| node.name=="tr" }
 
-			parse_rows(table_rows)
+			parse_table_rows(table_rows)
 	 	end
 
-	 	def self.parse_rows(table_rows)
+	 	def self.parse_table_rows(table_rows)
 	 		table_rows.map do |row|
 				{
 					rank: get_simple_value(row, 'rank'),
@@ -58,6 +55,35 @@ module Clients
 			doc = Nokogiri::HTML(URI.open(url))
 
 			# TODO
+			table = doc.xpath('//table[@id="matchlogs_for"]').first
+
+			# get body of table
+			tbody = table.children.select{ |node| node.name=="tbody"}.first
+
+			# get table rows from body
+			club_rows = tbody.children.select{ |node| node.name=="tr" }
+			# testing file write with File.open('tmpfile.html', 'w') { |file| file.write(table) }
+
+			parse_club_rows(club_rows)
 	 	end
+
+	 	def self.parse_club_rows(club_rows)
+	 		club_rows.map do |row|
+	 			require "pry"
+				binding.pry
+				{
+					date: get_simple_value(row, 'date'),
+					time: get_simple_value(row, 'start_time'),
+					# start here
+					games: get_simple_value(row, 'games'),
+					points: get_simple_value(row, 'points'),
+					goal_difference: get_simple_value(row, 'goal_diff'),
+					xg_diff_per90: get_simple_value(row, 'xg_diff_per90')
+				}
+	 		end
+	 	end
+
+	 	# run in console using load './app/services/clients/fbref_api_v1.rb'
+	 	pull_club_data(1)
 	end
 end

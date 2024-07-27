@@ -1,0 +1,29 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  date_time: 2024-07-26 19:49:52
+  table: one
+  round: MyString
+  home_team: one
+  away_team: one
+  home_goals: 1
+  away_goals: 1
+  home_penalties: 1
+  away_penalties: 1
+  home_xg: 1.5
+  away_xg: 1.5
+  attendance: 1
+
+two:
+  date_time: 2024-07-26 19:49:52
+  table: two
+  round: MyString
+  home_team: two
+  away_team: two
+  home_goals: 1
+  away_goals: 1
+  home_penalties: 1
+  away_penalties: 1
+  home_xg: 1.5
+  away_xg: 1.5
+  attendance: 1

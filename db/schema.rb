@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_07_25_194638) do
+ActiveRecord::Schema[7.1].define(version: 2024_07_26_234952) do
   create_table "clubs", force: :cascade do |t|
     t.string "name"
     t.string "location"
@@ -20,6 +20,30 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_25_194638) do
     t.datetime "updated_at", null: false
     t.string "gender"
     t.string "club_or_international"
+  end
+
+  create_table "matches", force: :cascade do |t|
+    t.datetime "date_time"
+    t.string "competition_name"
+    t.integer "table_id"
+    t.string "round"
+    t.string "home_team_name"
+    t.string "away_team_name"
+    t.integer "home_team_id"
+    t.integer "away_team_id"
+    t.integer "home_goals"
+    t.integer "away_goals"
+    t.integer "home_penalties"
+    t.integer "away_penalties"
+    t.float "home_xg"
+    t.float "away_xg"
+    t.integer "attendance"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["away_team_id"], name: "index_matches_on_away_team_id"
+    t.index ["date_time", "home_team_name", "away_team_name"], name: "idx_on_date_time_home_team_name_away_team_name_f241a682ba", unique: true
+    t.index ["home_team_id"], name: "index_matches_on_home_team_id"
+    t.index ["table_id"], name: "index_matches_on_table_id"
   end
 
   create_table "table_rows", force: :cascade do |t|
@@ -47,6 +71,9 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_25_194638) do
     t.string "club_or_international"
   end
 
+  add_foreign_key "matches", "away_teams"
+  add_foreign_key "matches", "home_teams"
+  add_foreign_key "matches", "tables"
   add_foreign_key "table_rows", "clubs"
   add_foreign_key "table_rows", "tables"
 end
