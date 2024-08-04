@@ -18,6 +18,7 @@ Rails.application.routes.draw do
   end
 
   resources :clubs do
+    get 'refresh', on: :member
     get 'refresh_all', on: :collection
   end
 end

@@ -1,0 +1,14 @@
+<tr>
+    <td><%= match.date_time %></td>
+    <td><%= link_to_if(match.table.present?, match.competition_name, match.table)  %></td>
+    <td><%= match.round %></td>
+    <td><%= link_to_if(match.home_team.present?, match.home_team_name, match.home_team)  %></td>
+    <td><%= link_to_if(match.away_team.present?, match.away_team_name, match.away_team)  %></td>
+    <td><%= match.home_goals %></td>
+    <td><%= match.away_goals %></td>
+    <td><%= match.home_penalties %></td>
+    <td><%= match.away_penalties %></td>
+    <td><%= match.home_xg %></td>
+    <td><%= match.away_xg %></td>
+    <td><%= match.attendance %></td>
+ </tr>

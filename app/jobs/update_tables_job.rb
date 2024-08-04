@@ -18,7 +18,15 @@ class UpdateTablesJob < ApplicationJob
       # find right club
       club = Club.where(:country_abbr=>country_abbr).where("config->>'fbref_table_name' = ?", row[:team]).first
 
-      table_row = TableRow.new(position: row[:rank], team_name: row[:team], points: row[:points], goal_difference: row[:goal_difference], xg_diff_per90: row[:xg_diff_per90], table: Table.find(table_id), club: club)
+      table_row = TableRow.new(
+        position: row[:rank],
+        team_name: row[:team],
+        points: row[:points],
+        goal_difference: row[:goal_difference],
+        xg_diff_per90: row[:xg_diff_per90],
+        table: Table.find(table_id),
+        club: club
+      )
       table_row.save
     end
 

@@ -41,4 +41,15 @@ class ClubService
 			((club_position-2)..(club_position+2))
 		end
 	end
+
+	# find all matches a club is involved in
+	def find_matches(club)
+		home_matches = Match.where(home_team: club).to_a
+		away_matches = Match.where(away_team: club).to_a
+		home_matches.concat(away_matches).sort_by(&:date_time)
+
+		# add result on for club, convert date times just to dates, add venue
+		# implement this: https://stackoverflow.com/questions/16324016/first-or-create-with-update-on-match
+		# add support for years
+	end
 end

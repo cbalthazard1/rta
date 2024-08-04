@@ -9,6 +9,8 @@ class ClubsController < ApplicationController
     @club = Club.find(params[:id])
 
     @table_snippets = club_service.generate_table_snippets(@club)
+
+    @matches = club_service.find_matches(@club)
   end
 
   def new
@@ -33,6 +35,17 @@ class ClubsController < ApplicationController
     @club = Club.find(params[:id])
 
     if @club.update(table_params)
+      redirect_to @club
+    else
+      render :edit, status: :unprocessable_entity
+    end
+  end
+
+  def refresh
+    @club = Club.find(params[:id])
+
+    if club_service.refresh_club(params[:id])
+      sleep(1.0)
       redirect_to @club
     else
       render :edit, status: :unprocessable_entity

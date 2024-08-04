@@ -38,6 +38,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_26_234952) do
     t.float "home_xg"
     t.float "away_xg"
     t.integer "attendance"
+    t.boolean "neutral_site"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["away_team_id"], name: "index_matches_on_away_team_id"
@@ -71,8 +72,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_26_234952) do
     t.string "club_or_international"
   end
 
-  add_foreign_key "matches", "away_teams"
-  add_foreign_key "matches", "home_teams"
+  add_foreign_key "matches", "clubs", column: "away_team_id"
+  add_foreign_key "matches", "clubs", column: "home_team_id"
   add_foreign_key "matches", "tables"
   add_foreign_key "table_rows", "clubs"
   add_foreign_key "table_rows", "tables"

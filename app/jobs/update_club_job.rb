@@ -12,18 +12,57 @@ class UpdateClubJob < ApplicationJob
     # fbref_individual_stats_data = FbrefService.pull_individual_stats_data(club_id)
     # elo_data = ClubEloService.pull_club_elo_data (should have elo table as reference, maybe?)
 
-    # interim parse step to come
-
-    # save data to db (start with fbref_api method, then do this step)
+    # save match data to db
     # Club.where(:club=> Club.find(club_id)).destroy_all
-    # fbref_data.each do |row|
-    #   # find right club
-    #   club = Club.where(:country_abbr=>country_abbr).where("config->>'fbref_table_name' = ?", row[:team]).first
+    fbref_fixture_data.each do |row|
+      # find right club
+      home_club = Club.where(:country_abbr=>country_abbr).where("config->>'fbref_table_name' = ?", row[:home_team_name]).first
+      away_club = Club.where(:country_abbr=>country_abbr).where("config->>'fbref_table_name' = ?", row[:away_team_name]).first
 
-    #   table_row = TableRow.new(position: row[:rank], team_name: row[:team], points: row[:points], goal_difference: row[:goal_difference], xg_diff_per90: row[:xg_diff_per90], table: Table.find(table_id), club: club)
-    #   table_row.save
-    # end
+      table = Table.where(:country_abbr=>country_abbr).where("config->>'fbref_table_name' = ?", row[:competition_name]).first
 
-    # add other data sources with conditions here IFF they are table-specific and not club-specific
+      # check index to see if match already exists, then add it if not
+      existing_match = Match.find_by(date_time: row[:date_time], home_team_name: row[:home_team_name], away_team_name: row[:away_team_name])
+      if existing_match.present?
+        existing_match.update(
+          competition_name: row[:competition_name],
+          round: row[:round],
+          attendance: row[:attendance],
+          neutral_site: row[:neutral_site],
+          home_goals: row[:home_goals],
+          away_goals: row[:away_goals],
+          home_xg: row[:home_xg],
+          away_xg: row[:away_xg],
+          home_penalties: row[:home_penalties],
+          away_penalties: row[:away_penalties],
+          table: table,
+          home_team: home_club,
+          away_team: away_club
+        )
+      else
+        generated_match = Match.new(
+          date_time: row[:date_time],
+          home_team_name: row[:home_team_name],
+          away_team_name: row[:away_team_name],
+          competition_name: row[:competition_name],
+          round: row[:round],
+          attendance: row[:attendance],
+          neutral_site: row[:neutral_site],
+          home_goals: row[:home_goals],
+          away_goals: row[:away_goals],
+          home_xg: row[:home_xg],
+          away_xg: row[:away_xg],
+          home_penalties: row[:home_penalties],
+          away_penalties: row[:away_penalties],
+          table: table,
+          home_team: home_club,
+          away_team: away_club
+        )
+
+        generated_match.save
+      end
+    end
+
+    # add other data sources with conditions here IFF they are club-specific
   end
 end

@@ -72,14 +72,15 @@ class TablesController < ApplicationController
   private
 
   def table_params
-    raw_params = params.require(:table).permit(:country_abbr, :level, :name, :gender, :club_or_international, :fbref_url)
+    raw_params = params.require(:table).permit(:country_abbr, :level, :name, :gender, :club_or_international, :fbref_table_name, :fbref_url)
     params_with_config = raw_params
 
     # will likely end up refactoring this to handle multiple additional fields at some point
     params_with_config[:config] = {
+      fbref_table_name: raw_params[:fbref_table_name],
       fbref_url: raw_params[:fbref_url]
     }
-    params_with_config.except(:fbref_url)
+    params_with_config.except(:fbref_table_name, :fbref_url)
   end
 
   def table_refresh_service

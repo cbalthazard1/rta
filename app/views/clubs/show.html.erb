@@ -15,9 +15,20 @@
 </table>
 <% end %>
 
+<h3>Matches</h3>
+<table class="table sortable">
+  <thead class="table__thead">
+    <%= render "matches/unsortable_table_header" %>
+  </thead>
+  <tbody>
+    <%= render @matches %>
+  </tbody>
+</table>
+
 <ul data-turbo-prefetch="false">
   <li><%= link_to "Back to tables", tables_path %></li>
   <li><%= link_to "New Club", new_club_path %></li>
+  <li><%= link_to "Refresh", refresh_club_path(@club) %></li>
   <li><%= link_to "Edit", edit_club_path(@club) %></li>
   <li><%= link_to "Destroy", club_path(@club), data: {
                     turbo_method: :delete,

@@ -7,8 +7,8 @@ class CreateMatches < ActiveRecord::Migration[7.1]
       t.string :round
       t.string :home_team_name
       t.string :away_team_name
-      t.references :home_team, foreign_key: true
-      t.references :away_team, foreign_key: true
+      t.references :home_team, foreign_key: { to_table: :clubs }, index: true
+      t.references :away_team, foreign_key: { to_table: :clubs }, index: true
       t.integer :home_goals
       t.integer :away_goals
       t.integer :home_penalties
@@ -16,6 +16,7 @@ class CreateMatches < ActiveRecord::Migration[7.1]
       t.float :home_xg
       t.float :away_xg
       t.integer :attendance
+      t.boolean :neutral_site
 
       t.timestamps
     end

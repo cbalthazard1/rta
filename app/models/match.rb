@@ -7,11 +7,7 @@ class Match < ApplicationRecord
   validates :round, presence: true, length: { maximum: 40 }
   validates :home_goals, presence: true
   validates :away_goals, presence: true
-  validates :home_penalties, presence: true
-  validates :away_penalties, presence: true
   validates :home_team_name, presence: true, length: { maximum: 100 }
   validates :away_team_name, presence: true, length: { maximum: 100 }
-  validates :home_xg, presence: true
-  validates :away_xg, presence: true
-  validates :attendance, presence: true
+  validates :neutral_site, inclusion: [true, false]
 end
