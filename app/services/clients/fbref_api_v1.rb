@@ -67,9 +67,8 @@ module Clients
 	 		attr = row.children.select do |node|
 	 			node.attribute_nodes.any? { |attr_node| attr_node.name == "data-stat" && attr_node.value == val }
 	 		end.first
-	 		
+
 	 		if attr.children.first
-	 			puts attr.children.first.text.delete(',').to_f
 	 			attr.children.first.text.delete(',').to_f
 	 		else
 	 			nil

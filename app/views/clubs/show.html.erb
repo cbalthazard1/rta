@@ -21,7 +21,7 @@
     <%= render "matches/unsortable_table_header" %>
   </thead>
   <tbody>
-    <%= render @matches %>
+    <%= render :partial => "matches/match", :collection => @matches, :as => :match %>
   </tbody>
 </table>
 

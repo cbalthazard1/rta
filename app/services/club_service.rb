@@ -46,10 +46,29 @@ class ClubService
 	def find_matches(club)
 		home_matches = Match.where(home_team: club).to_a
 		away_matches = Match.where(away_team: club).to_a
-		home_matches.concat(away_matches).sort_by(&:date_time)
+		home_matches.concat(away_matches).sort_by(&:date_time).as_json.map do |match|
+			match["result"] = determine_result(match, club)
+			match["date"] = match["date_time"].to_date
+			match
+		end
+	end
 
-		# add result on for club, convert date times just to dates, add venue
-		# implement this: https://stackoverflow.com/questions/16324016/first-or-create-with-update-on-match
-		# add support for years
+	# determine result for a match for a club
+	def determine_result(match, club)
+		goals_level = match["home_goals"] == match["away_goals"]
+		return "Draw" if goals_level && match["home_penalties"].nil?
+
+		home_team_wins = (match["home_goals"] > match["away_goals"])
+		home_team_wins = (match["home_penalties"] > match["away_penalties"]) if match["home_penalties"].present?
+
+		((club_in_home_slot?(match, club) && home_team_wins) || (!club_in_home_slot?(match, club) && !home_team_wins)) ? "Win" : "Loss"
+	end
+
+	def club_in_home_slot?(match, club)
+		club[:config]["fbref_table_name"] == match["home_team_name"]
 	end
 end
+
+# add venue
+# implement this: https://stackoverflow.com/questions/16324016/first-or-create-with-update-on-match
+# add support for years; first add support for empty match results
