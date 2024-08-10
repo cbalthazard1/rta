@@ -16,6 +16,7 @@
   <li><%= link_to "Back to tables", tables_path %></li>
   <li><%= link_to "Refresh", refresh_table_path(@table) %></li>
   <li><%= link_to "Edit", edit_table_path(@table) %></li>
+  <li><%= link_to "New club", new_club_path %></li>
   <li><%= link_to "Destroy", table_path(@table), data: {
                     turbo_method: :delete,
                     turbo_confirm: "Are you sure?"

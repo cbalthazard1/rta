@@ -8,6 +8,14 @@
   </div>
 
   <div>
+    <%= form.label :short_name %><br>
+    <%= form.text_area :short_name %>
+    <% club.errors.full_messages_for(:short_name).each do |message| %>
+      <div><%= message %></div>
+    <% end %>
+  </div>
+
+  <div>
     <%= form.label :country_abbr %><br>
     <%= form.text_field :country_abbr %>
     <% club.errors.full_messages_for(:country_abbr).each do |message| %>
@@ -51,6 +59,15 @@
     <%= form.label :fbref_table_name %><br>
     <%= form.text_area :fbref_table_name %>
     <% club.errors.full_messages_for(:fbref_table_name).each do |message| %>
+      <div><%= message %></div>
+    <% end %>
+  </div>
+<% end %>
+<% if !@club.config.keys.include?("fbref_club_page_name") %>
+  <div>
+    <%= form.label :fbref_club_page_name %><br>
+    <%= form.text_area :fbref_club_page_name %>
+    <% club.errors.full_messages_for(:fbref_club_page_name).each do |message| %>
       <div><%= message %></div>
     <% end %>
   </div>

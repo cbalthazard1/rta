@@ -42,15 +42,45 @@ class ClubService
 		end
 	end
 
+	def associate_club(club)
+		tables = associate_club_with_tables(club)
+		tables.each do |table|
+			associate_club_with_matches(club, table)
+		end
+	end
+
+	def associate_club_with_tables(club)
+		# check name first to minimize joins on country abbreviation
+		# only need to check table name, since club name should already be associated
+		matching_table_rows = TableRow.where(:team_name=>club.config["fbref_table_name"], :club=>nil).joins(:table).where(table: { country_abbr: club.country_abbr })
+		matching_table_rows.each_with_object([]) do |table_row, tables_arr|
+			table_row.club = club
+			table_row.save
+			tables_arr << table_row.table
+		end
+	end
+
+	def associate_club_with_matches(club, table)
+		# only need to check table name, since club name should already be associated
+		home_matches_involved = Match.where(:table=>table, :home_team_name=>club.config["fbref_table_name"], :home_team=>nil)
+		home_matches_involved.each do |match|
+			match.home_team = club
+			match.save
+		end
+
+		away_matches_involved = Match.where(:table=>table, :away_team_name=>club.config["fbref_table_name"], :away_team=>nil)
+		away_matches_involved.each do |match|
+			match.away_team = club
+			match.save
+		end
+	end
+
 	# find all matches a club is involved in
 	def find_matches(club)
 		home_matches = Match.where(home_team: club).to_a
 		away_matches = Match.where(away_team: club).to_a
-		home_matches.concat(away_matches).sort_by(&:date_time).as_json.map do |match|
-			match["result"] = determine_result(match, club)
-			match["date"] = match["date_time"].to_date
-			match
-		end
+		# the include keeps Club associations for home and away team
+		home_matches.concat(away_matches).sort_by(&:date_time)
 	end
 
 	# determine result for a match for a club
@@ -65,10 +95,10 @@ class ClubService
 	end
 
 	def club_in_home_slot?(match, club)
-		club[:config]["fbref_table_name"] == match["home_team_name"]
+		club[:config]["fbref_table_name"] == match["home_team_name"] || club[:config]["fbref_club_page_name"] == match["home_team_name"]
 	end
 end
 
-# add venue
-# implement this: https://stackoverflow.com/questions/16324016/first-or-create-with-update-on-match
+# add ELO from clubelo
+# figure out how to get everything populated quickly
 # add support for years; first add support for empty match results

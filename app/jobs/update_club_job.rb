@@ -13,37 +13,22 @@ class UpdateClubJob < ApplicationJob
     # elo_data = ClubEloService.pull_club_elo_data (should have elo table as reference, maybe?)
 
     # save match data to db
-    # Club.where(:club=> Club.find(club_id)).destroy_all
     fbref_fixture_data.each do |row|
       # find right club
-      home_club = Club.where(:country_abbr=>country_abbr).where("config->>'fbref_table_name' = ?", row[:home_team_name]).first
-      away_club = Club.where(:country_abbr=>country_abbr).where("config->>'fbref_table_name' = ?", row[:away_team_name]).first
+      home_club = Club.where(:country_abbr=>country_abbr).where("config->>'fbref_table_name' = ?", row[:home_team_name]).first ||
+        Club.where(:country_abbr=>country_abbr).where("config->>'fbref_club_page_name' = ?", row[:home_team_name]).first
+      away_club = Club.where(:country_abbr=>country_abbr).where("config->>'fbref_table_name' = ?", row[:away_team_name]).first ||
+        Club.where(:country_abbr=>country_abbr).where("config->>'fbref_club_page_name' = ?", row[:away_team_name]).first
 
       table = Table.where(:country_abbr=>country_abbr).where("config->>'fbref_table_name' = ?", row[:competition_name]).first
 
-      # check index to see if match already exists, then add it if not
-      existing_match = Match.find_by(date_time: row[:date_time], home_team_name: row[:home_team_name], away_team_name: row[:away_team_name])
-      if existing_match.present?
-        existing_match.update(
-          competition_name: row[:competition_name],
-          round: row[:round],
-          attendance: row[:attendance],
-          neutral_site: row[:neutral_site],
-          home_goals: row[:home_goals],
-          away_goals: row[:away_goals],
-          home_xg: row[:home_xg],
-          away_xg: row[:away_xg],
-          home_penalties: row[:home_penalties],
-          away_penalties: row[:away_penalties],
-          table: table,
-          home_team: home_club,
-          away_team: away_club
-        )
-      else
-        generated_match = Match.new(
+      begin
+        # check index to see if match already exists, then add it if not
+        Match.where(
           date_time: row[:date_time],
-          home_team_name: row[:home_team_name],
-          away_team_name: row[:away_team_name],
+          home_team: home_club,
+          away_team: away_club
+        ).first_or_create.update(
           competition_name: row[:competition_name],
           round: row[:round],
           attendance: row[:attendance],
@@ -55,12 +40,14 @@ class UpdateClubJob < ApplicationJob
           home_penalties: row[:home_penalties],
           away_penalties: row[:away_penalties],
           table: table,
-          home_team: home_club,
-          away_team: away_club
+          home_team_name: row[:home_team_name],
+          away_team_name: row[:away_team_name]
         )
-
-        generated_match.save
-      end
+        rescue ActiveRecord::RecordNotUnique => e
+          next if(e.message =~ /unique.*constraint.*index_matches_on_date_time_and_away_team_id/)
+          next if(e.message =~ /unique.*constraint.*index_matches_on_date_time_and_home_team_id/)
+          raise
+        end
     end
 
     # add other data sources with conditions here IFF they are club-specific

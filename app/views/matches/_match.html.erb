@@ -1,15 +1,25 @@
 <tr>
-    <td><%= match["date"] %></td>
-    <td><%= link_to_if(match["table"].present?, match["competition_name"], match["table"])  %></td>
-    <td><%= match["round"] %></td>
-    <td><%= link_to_if(match["home_team"].present?, match["home_team_name"], match["home_team"])  %></td>
-    <td><%= link_to_if(match["away_team"].present?, match["away_team_name"], match["away_team"])  %></td>
-    <td><%= match["result"] %></td>
-    <td><%= match["home_goals"] %></td>
-    <td><%= match["away_goals"] %></td>
-    <td><%= match["home_penalties"] %></td>
-    <td><%= match["away_penalties"] %></td>
-    <td><%= match["home_xg"] %></td>
-    <td><%= match["away_xg"] %></td>
-    <td><%= match["attendance"] %></td>
+    <td><%= match.date_time %></td>
+    <td><%= link_to_if(match.table.present?, match.competition_name, match.table)  %></td>
+    <td><%= match.round %></td>
+    <% if match.home_team.present? %>
+        <td><%= link_to_if(match.home_team.present?, match.home_team.short_name || match.home_team_name, match.home_team)  %></td>
+    <% else %>
+        <td><%= link_to_if(match.home_team.present?, match.home_team_name, match.home_team)  %></td>
+    <% end %>
+    <% if match.away_team.present? %>
+        <td><%= link_to_if(match.away_team.present?, match.away_team.short_name || match.away_team_name, match.away_team)  %></td>
+    <% else %>
+        <td><%= link_to_if(match.away_team.present?, match.away_team_name, match.away_team)  %></td>
+    <% end %>
+    <% if !match.home_penalties %>
+        <td><%= match.home_goals %></td>
+        <td><%= match.away_goals %></td>
+    <% else %>
+        <td><%= match.home_goals %> (<%= match.home_penalties %>)</td>
+        <td><%= match.away_goals %> (<%= match.away_penalties %>)</td>
+    <% end %>
+    <td><%= match.home_xg %></td>
+    <td><%= match.away_xg %></td>
+    <td><%= match.attendance %></td>
  </tr>
