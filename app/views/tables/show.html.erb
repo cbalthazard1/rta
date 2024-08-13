@@ -26,7 +26,6 @@
 <style>
 td, th {
   border: 1px solid #999;
-  background-color: #AFEEEE;
 }
 td {
   padding: 0.3rem;
@@ -34,4 +33,82 @@ td {
 th {
   padding: 0.9rem;
 }
+<%# generated with https://colordesigner.io/gradient-generator %>
+tr.position-1 {
+  background-color: #77e094;
+}
+tr.position-2 {
+  background-color: #8ae39c;
+}
+tr.position-3 {
+  background-color: #9ce6a4;
+}
+tr.position-4 {
+  background-color: #ace9ad;
+}
+tr.position-5 {
+  background-color: #bbecb7;
+}
+tr.position-6 {
+  background-color: #c9efc2;
+}
+tr.position-7 {
+  background-color: #d6f2cd;
+}
+tr.position-8 {
+  background-color: #e2f5d9;
+}
+tr.position-9 {
+  background-color: #edf9e6;
+}
+tr.position-10 {
+  background-color: #f7fcf3;
+}
+tr.position-11 {
+  background-color: #f7fcf3;
+}
+tr.position-12 {
+  background-color: #ebf0de;
+}
+tr.position-13 {
+  background-color: #e3e3c8;
+}
+tr.position-14 {
+  background-color: #ded6b3;
+}
+tr.position-15 {
+  background-color: #dbc79f;
+}
+tr.position-16 {
+  background-color: #dbb78e;
+}
+tr.position-17 {
+  background-color: #daa680;
+}
+tr.position-18 {
+  background-color: #da9577;
+}
+tr.position-19 {
+  background-color: #d98371;
+}
+tr.position-20 {
+  background-color: #d77070;
+}
 </style>
+
+<script>
+
+  // Select all tr elements
+  var rows = document.querySelectorAll("tr");
+
+  // Loop through each tr element
+  for(let i = 1; i < rows.length; i++){
+
+    // Get the position value of the current product
+    let position = rows[i].querySelector(".position").textContent;
+
+    // Add a class to the current element based on position value
+    rows[i].classList.add(`position-${position}`);
+  }
+
+</script>

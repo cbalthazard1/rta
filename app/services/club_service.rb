@@ -111,6 +111,7 @@ end
 
 # add colors for table rows to more easily visualize differences when sorting
 # swap goodjob in for sidekiq
+# add table vs knockout vs other types of competition (to add CL in)
 # find where to get form table data (by league? build it myself?)
 # figure out how to get everything populated quickly
 # add support for years; first add support for empty match results
