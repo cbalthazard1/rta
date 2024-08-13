@@ -81,6 +81,15 @@
     <% end %>
   </div>
 <% end %>
+<% if !@club.config.keys.include?("club_elo_name") %>
+  <div>
+    <%= form.label :club_elo_name %><br>
+    <%= form.text_area :club_elo_name %>
+    <% club.errors.full_messages_for(:club_elo_name).each do |message| %>
+      <div><%= message %></div>
+    <% end %>
+  </div>
+<% end %>
 
   <div>
     <%= form.submit %>

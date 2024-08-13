@@ -3,6 +3,10 @@
 
 <p><%= @club.location %></p>
 
+<% if @club.elo %>
+<p>ELO rating: <%= @club.elo.elo_rating %></p>
+<% end %>
+
 <% @table_snippets.each do |table_snippet| %>
  <h3><%= link_to table_snippet[:table][:name], table_snippet[:table] %></h3>
  <table class="table sortable">

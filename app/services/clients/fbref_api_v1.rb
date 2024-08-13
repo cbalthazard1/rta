@@ -86,7 +86,6 @@ module Clients
 	 		url = Club.find(club_id)[:config]["fbref_url"]
 			doc = Nokogiri::HTML(URI.open(url))
 
-			# TODO
 			table = doc.xpath('//table[@id="matchlogs_for"]').first
 			club_name = doc.xpath('//a[contains(text(), "Stats & History")]').first.children.first.text.gsub(" Stats & History", "")
 

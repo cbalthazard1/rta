@@ -73,16 +73,17 @@ class ClubsController < ApplicationController
   private
 
   def table_params
-    raw_params = params.require(:club).permit(:name, :short_name, :location, :country_abbr, :gender, :club_or_international, :fbref_table_name, :fbref_club_page_name, :fbref_url)
+    raw_params = params.require(:club).permit(:name, :short_name, :location, :country_abbr, :gender, :club_or_international, :fbref_table_name, :fbref_club_page_name, :fbref_url, :club_elo_name)
     params_with_config = raw_params
 
     # will likely end up refactoring this to handle multiple additional fields at some point
     params_with_config[:config] = {
       fbref_table_name: raw_params[:fbref_table_name],
       fbref_club_page_name: raw_params[:fbref_club_page_name],
-      fbref_url: raw_params[:fbref_url]
+      fbref_url: raw_params[:fbref_url],
+      club_elo_name: raw_params[:club_elo_name]
     }
-    params_with_config.except(:fbref_table_name, :fbref_club_page_name, :fbref_url)
+    params_with_config.except(:fbref_table_name, :fbref_club_page_name, :fbref_url, :club_elo_name)
   end
 
   def club_service

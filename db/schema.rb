@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_08_08_191130) do
+ActiveRecord::Schema[7.1].define(version: 2024_08_12_201835) do
   create_table "clubs", force: :cascade do |t|
     t.string "name"
     t.string "location"
@@ -21,6 +21,15 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_08_191130) do
     t.string "gender"
     t.string "club_or_international"
     t.string "short_name"
+  end
+
+  create_table "elos", force: :cascade do |t|
+    t.string "club_name"
+    t.integer "elo_rating"
+    t.integer "club_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["club_id"], name: "index_elos_on_club_id"
   end
 
   create_table "matches", force: :cascade do |t|
@@ -74,6 +83,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_08_191130) do
     t.string "club_or_international"
   end
 
+  add_foreign_key "elos", "clubs"
   add_foreign_key "matches", "clubs", column: "away_team_id"
   add_foreign_key "matches", "clubs", column: "home_team_id"
   add_foreign_key "matches", "tables"

@@ -10,7 +10,7 @@ class UpdateClubJob < ApplicationJob
 
     fbref_fixture_data = FbrefService.pull_club_fixture_data(club_id)
     # fbref_individual_stats_data = FbrefService.pull_individual_stats_data(club_id)
-    # elo_data = ClubEloService.pull_club_elo_data (should have elo table as reference, maybe?)
+    elo_data = ClubEloService.get_club_elo_data(club_id)
 
     # save match data to db
     fbref_fixture_data.each do |row|

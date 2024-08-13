@@ -47,6 +47,8 @@ class ClubService
 		tables.each do |table|
 			associate_club_with_matches(club, table)
 		end
+		
+		associate_club_with_elo(club)
 	end
 
 	def associate_club_with_tables(club)
@@ -75,6 +77,14 @@ class ClubService
 		end
 	end
 
+	def associate_club_with_elo(club)
+		matching_elo = Elo.where(:club_name=>club.config["club_elo_name"], :club=>nil).first
+		return if matching_elo.nil?
+
+		matching_elo.club = club
+		matching_elo.save
+	end
+
 	# find all matches a club is involved in
 	def find_matches(club)
 		home_matches = Match.where(home_team: club).to_a
@@ -99,6 +109,8 @@ class ClubService
 	end
 end
 
-# add ELO from clubelo
+# add colors for table rows to more easily visualize differences when sorting
+# swap goodjob in for sidekiq
+# find where to get form table data (by league? build it myself?)
 # figure out how to get everything populated quickly
 # add support for years; first add support for empty match results
