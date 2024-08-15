@@ -11,6 +11,9 @@
 # It's strongly recommended that you check this file into your version control system.
 
 ActiveRecord::Schema[7.1].define(version: 2024_08_12_201835) do
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "clubs", force: :cascade do |t|
     t.string "name"
     t.string "location"
@@ -26,7 +29,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_12_201835) do
   create_table "elos", force: :cascade do |t|
     t.string "club_name"
     t.integer "elo_rating"
-    t.integer "club_id"
+    t.bigint "club_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["club_id"], name: "index_elos_on_club_id"
@@ -35,12 +38,12 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_12_201835) do
   create_table "matches", force: :cascade do |t|
     t.datetime "date_time"
     t.string "competition_name"
-    t.integer "table_id"
+    t.bigint "table_id"
     t.string "round"
     t.string "home_team_name"
     t.string "away_team_name"
-    t.integer "home_team_id"
-    t.integer "away_team_id"
+    t.bigint "home_team_id"
+    t.bigint "away_team_id"
     t.integer "home_goals"
     t.integer "away_goals"
     t.integer "home_penalties"
@@ -52,8 +55,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_12_201835) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["away_team_id"], name: "index_matches_on_away_team_id"
-    t.index ["date_time", "away_team_id"], name: "index_matches_on_date_time_and_away_team_id", unique: true, where: "away_team_id IS NOT NULL"
-    t.index ["date_time", "home_team_id"], name: "index_matches_on_date_time_and_home_team_id", unique: true, where: "home_team_id IS NOT NULL"
+    t.index ["date_time", "away_team_id"], name: "index_matches_on_date_time_and_away_team_id", unique: true, where: "(away_team_id IS NOT NULL)"
+    t.index ["date_time", "home_team_id"], name: "index_matches_on_date_time_and_home_team_id", unique: true, where: "(home_team_id IS NOT NULL)"
     t.index ["home_team_id"], name: "index_matches_on_home_team_id"
     t.index ["table_id"], name: "index_matches_on_table_id"
   end
@@ -63,11 +66,11 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_12_201835) do
     t.string "team_name"
     t.integer "points"
     t.integer "goal_difference"
-    t.integer "table_id", null: false
+    t.bigint "table_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.float "xg_diff_per90"
-    t.integer "club_id"
+    t.bigint "club_id"
     t.index ["club_id"], name: "index_table_rows_on_club_id"
     t.index ["table_id"], name: "index_table_rows_on_table_id"
   end
@@ -78,7 +81,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_12_201835) do
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.json "config", default: {}
+    t.jsonb "config", default: {}
     t.string "gender"
     t.string "club_or_international"
   end
