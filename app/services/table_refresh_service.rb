@@ -5,6 +5,7 @@ class TableRefreshService
 	end
 
 	def refresh_all_tables
+		# TODO: GoodJob::Bulk.enqueue([MyJob.new, AnotherJob.new])
 		Table.all.each do |table|
 	      refresh_table(table[:id])
 	    end

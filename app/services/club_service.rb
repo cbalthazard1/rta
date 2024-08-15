@@ -4,7 +4,8 @@ class ClubService
 		UpdateClubJob.perform_later(club_id)
 	end
 
-	def refresh_all_tables
+	def refresh_all_clubs
+		# TODO: GoodJob::Bulk.enqueue([MyJob.new, AnotherJob.new])
 		Club.all.each do |club|
 	      refresh_club(club[:id])
 	    end
@@ -21,7 +22,7 @@ class ClubService
 
 	      table_rows = TableRow.where(:table => table).select do |row|
 	      	positions_to_include.include?(row[:position])
-	      end
+	      end.sort_by(&:position)
 
 	      arr << {
 	      	table: table,
@@ -109,7 +110,6 @@ class ClubService
 	end
 end
 
-# swap goodjob in for sidekiq
 # add table vs knockout vs other types of competition (to add CL in)
 # find where to get form table data (by league? build it myself?)
 # figure out how to get everything populated quickly

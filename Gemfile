@@ -27,9 +27,6 @@ gem "stimulus-rails"
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]
 gem "jbuilder"
 
-# Handle jobs in a third party API
-gem "sidekiq"
-
 gem "pry"
 
 gem 'nokogiri', '~> 1.16', '>= 1.16.6'
