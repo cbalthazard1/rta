@@ -7,16 +7,22 @@ class TablesController < ApplicationController
 
   def show
     @table = Table.find(params[:id])
+    @season = params[:season]
+
+    rows = @table.table_rows.where(season: @season)
+
+    seasons = @table.table_rows.distinct.pluck(:season) << "2024-2025"
+    @available_seasons = seasons - [@season]
 
     # sorting code mostly from https://code.avi.nyc/turbo-sortable-paginated-tables
     sort_column = params[:sort] || "position"
     sort_direction = params[:direction].presence_in(%w[asc desc]) || "asc"
 
     if %w[position team_name points goal_difference xg_diff_per90].include?(sort_column)
-      @table_rows = @table.table_rows.order("#{sort_column} #{sort_direction}")
+      @table_rows = rows.order("#{sort_column} #{sort_direction}")
     else
       # works for integer sort - necessary if avoiding db sort
-      @table_rows = @table.table_rows.all.sort_by do |row|
+      @table_rows = rows.all.sort_by do |row|
         row.send(sort_column.to_sym) || 0
       end
 

@@ -3,7 +3,7 @@
 <ul>
   <% @tables.each do |table| %>
     <li>
-      <%= link_to table.name, table %>
+      <%= link_to table.name, table_season_path(table[:id], "2024-2025") %>
     </li>
   <% end %>
 </ul>

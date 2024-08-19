@@ -10,4 +10,5 @@ class Match < ApplicationRecord
   validates :home_team_name, presence: true, length: { maximum: 100 }
   validates :away_team_name, presence: true, length: { maximum: 100 }
   validates :neutral_site, inclusion: [true, false]
+  validates :season, presence: true
 end
