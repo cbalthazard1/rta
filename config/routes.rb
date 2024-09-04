@@ -8,8 +8,6 @@ Rails.application.routes.draw do
 
   mount GoodJob::Engine => 'good_job'
 
-  get "tables/:id/:season", to: "tables#show", as: 'table_season'
-
   resources :tables do
     get 'refresh', on: :member
     get 'refresh_all', on: :collection

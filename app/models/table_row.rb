@@ -4,8 +4,6 @@ class TableRow < ApplicationRecord
 
   validates_associated :table
 
-  validates :season, presence: true
-
   def elo_rating
     club&.elo&.elo_rating
   end

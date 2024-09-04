@@ -3,13 +3,6 @@
 
 <p><%= @table.country_abbr %>, level <%= @table.level %></p>
 
-<p>
-  <h4>Other available seasons:</h4>
-  <% @available_seasons.each do |season| %>
-      <%= link_to season, table_season_path(@table, season) %><br>
-  <% end %>
-</p>
-
 <table class="table sortable">
   <thead class="table__thead">
     <%= render "table_rows/sortable_table_header" %>
