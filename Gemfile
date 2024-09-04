@@ -72,3 +72,5 @@ group :test do
 end
 
 gem "good_job", "~> 4.1"
+
+gem 'seed_dump'
