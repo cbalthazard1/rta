@@ -12,6 +12,10 @@ class UpdateClubJob < ApplicationJob
     # fbref_individual_stats_data = FbrefService.pull_individual_stats_data(club_id)
     elo_data = ClubEloService.get_club_elo_data(club_id)
 
+    # remove previous data and save new to db
+    Match.where(:home_team=> Club.find(club_id)).destroy_all
+    Match.where(:away_team=> Club.find(club_id)).destroy_all
+
     # save match data to db
     fbref_fixture_data.each do |row|
       # find right club

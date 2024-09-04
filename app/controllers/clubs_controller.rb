@@ -47,7 +47,7 @@ class ClubsController < ApplicationController
     @club = Club.find(params[:id])
 
     if club_service.refresh_club(params[:id])
-      sleep(1.0)
+      sleep(2.0)
       redirect_to @club
     else
       render :edit, status: :unprocessable_entity
@@ -55,8 +55,8 @@ class ClubsController < ApplicationController
   end
 
   def refresh_all
-    if club_refresh_service.refresh_all_clubs
-      sleep(1.0)
+    if club_service.refresh_all_clubs
+      sleep(2.0)
       redirect_to root_path
     else
       render :edit, status: :unprocessable_entity
